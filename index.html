@@ -202,7 +202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/14/ssh_/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/14/ssh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -218,7 +218,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/14/ssh_/" class="post-title-link" itemprop="url">技术讲解</a>
+            <a href="/2020/08/14/ssh/" class="post-title-link" itemprop="url">技术讲解</a>
         </h2>
 
         <div class="post-meta">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-16 23:15:19" itemprop="dateModified" datetime="2020-08-16T23:15:19+08:00">2020-08-16</time>
+                <time title="修改时间：2020-08-16 23:22:48" itemprop="dateModified" datetime="2020-08-16T23:22:48+08:00">2020-08-16</time>
               </span>
 
           
@@ -249,7 +249,7 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="ssh介绍"><a href="#ssh介绍" class="headerlink" title="ssh介绍"></a>ssh介绍</h2><p>  ssh是secure shell(安全外壳协议)的缩写，用于通过在网络中创建安全隧道来实现服务器和客户端之间的连接。ssh最的设计目标时取代rlogin、telnet、ftp和rsh等安全性不足的协议，现在仍在维护的是OpenSSH，它支持的是SSH-2协议。ssh在一定程度上解决了监听、嗅探和中间人攻击问题，但是实际上美国中央情报局已经能够开发出窃取ssh会话的工具。</p>
 <h2 id="ssh的工作原理"><a href="#ssh的工作原理" class="headerlink" title="ssh的工作原理"></a>ssh的工作原理</h2><p>  ssh在服务器端启动，客户端的ssh应用程序启动，请求连接；接收到客户端的请求后，服务器端进程将自己的公钥传递给客户端进程；客户端处理并记忆服务器端公钥，将自己的公钥传递给服务器；进行两端的数据传输，传输时分别使用对方的公钥进行数据编码，到了对面之后，对面在使用自己的私钥进行解码。</p>
-<p>  <img src="./images/sshConnectionExample.png" alt="ssh连接及传递数据示意图"></p>
+<p>  <img src="/2020/08/14/ssh/sshConnectionExample.png" alt="ssh连接及传递数据示意图"></p>
 <p>  ssh的两种认证方式包括password认证和publickey认证。password认证指的是使用用户名和密码进行认证；publickey认证使用的是数字签名的方式来进行的认证，目前可以使用DSA和RSA两种公共密钥算法进行相应的认证。</p>
 <h2 id="ssh的配置及使用"><a href="#ssh的配置及使用" class="headerlink" title="ssh的配置及使用"></a>ssh的配置及使用</h2><p>  首先需要在服务器端制作密码对，使用<code>ssh-keygen</code>来建立密钥对，生成的过程中，可以选择是否使用密码锁，密码锁可以保证在私钥不被盗用。之后需要用<code>cd .ssh </code>和命令<code>cat id_rsa.pub &gt;&gt; authorized_keys</code>来安装公钥。为了保证文件的权限正确，可以使用下面两条命令<code>chmod 600 authorized_keys</code>和<code>chmod 700 ~/.ssh</code>。然后，再编辑/etc/ssh/sshd_config文件，设置RSAAuthentication为yes，PubkeyAuthentication为yes，可以选择设置permitRootLogin和PasswordAuthentication，这样可以选择是否允许root的ssh登陆和是否允许密码登录。最后，通过<code>service ssh restart</code>来重启ssh服务。之后，将私钥下载到自己的电脑，就可以使用它来登录了。</p>
 <p>  ssh登录命令的使用格式: <code>ssh [-l user_name] [-p port] [user@]host</code> ，比如<code>ssh xxx@192.168.1.134 -p 3000</code>  就是使用ssh进行远程登陆的一个例子。</p>
